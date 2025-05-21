@@ -13,14 +13,21 @@ function generateDeck() {
     }))
     .sort(() => Math.random() - 0.5);
 
-  console.log("Wygenerowana talia:", deck);
   return deck;
 }
 
 function App() {
   const [cards, setCards] = useState(generateDeck);
-  console.log("🧠 Aktualny stan kart:", cards);
+  console.log("Aktualny stan kart:", cards);
 
+  const handleClick = (clickedCard) => {
+    console.log("handleCardClick:", clickedCard);
+
+    const updatedCards = cards.map((card) =>
+      card.id === clickedCard.id ? { ...card, isFlipped: true } : card
+    );
+    setCards(updatedCards);
+  };
   return (
     <div style={{ padding: "2rem" }}>
       <h1>Memory Game</h1>
@@ -32,7 +39,7 @@ function App() {
         }}
       >
         {cards.map((card) => (
-          <Card key={card.id} value={card.symbol} />
+          <Card key={card.id} card={card} onClick={handleClick} />
         ))}
       </div>
     </div>
