@@ -12,6 +12,8 @@ function App() {
   const [time, setTime] = useState(0);
   const [isTiming, setIsTiming] = useState(false);
   const [bestScore, setBestScore] = useState(null);
+  const [screen, setScreen] = useState("start"); // "start" | "game"
+  const [difficulty, setDifficulty] = useState("medium"); // domyślnie średni
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -115,7 +117,7 @@ function App() {
   };
 
   const resetGame = () => {
-    setCards(generateDeck());
+    setCards(generateDeck(difficulty));
     setFirstCard(null);
     setSecondCard(null);
     setIsBusy(false);
@@ -124,6 +126,45 @@ function App() {
     setTime(0);
     setIsTiming(false);
   };
+
+  if (screen === "start") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center p-8">
+        <h1 className="text-4xl font-bold mb-6 text-blue-700">
+          🎴 Memory Game
+        </h1>
+
+        <div className="flex gap-4 mb-6">
+          {["easy", "medium", "hard"].map((level) => (
+            <button
+              key={level}
+              onClick={() => setDifficulty(level)}
+              className={`px-4 py-2 rounded font-semibold capitalize ${
+                difficulty === level
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {level === "easy" && "🟢 Łatwy"}
+              {level === "medium" && "🟡 Średni"}
+              {level === "hard" && "🔴 Trudny"}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => {
+            setCards(generateDeck(difficulty));
+            resetGame();
+            setScreen("game");
+          }}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded shadow text-lg"
+        >
+          Start
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
