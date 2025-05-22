@@ -8,22 +8,15 @@ function Card({ card, onClick }) {
 
   return (
     <div
-      className="card"
       onClick={handleClick}
-      style={{
-        width: "100px",
-        height: "100px",
-        backgroundColor: "#eee",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "2rem",
-        cursor: "pointer",
-        borderRadius: "0.5rem",
-      }}
+      className={`w-24 h-24 flex items-center justify-center text-3xl rounded-lg shadow-md cursor-pointer select-none transition-transform duration-200 ${
+        card.isFlipped || card.isMatched
+          ? "bg-white text-black scale-100"
+          : "bg-gray-400 text-gray-400 hover:scale-105"
+      }`}
     >
       {/* pokazuj symbol tylko jesli karta jest odkryta */}
-      {card.isFlipped || card.isMatched ? card.symbol : "?"}
+      {card.isFlipped || card.isMatched ? card.symbol : "❓"}
     </div>
   );
 }

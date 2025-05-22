@@ -71,18 +71,20 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Memory Game</h1>
-      {hasWon && <h2>🎉 Brawo! Wygrałeś!</h2>}
-      <button onClick={resetGame}>🔁 Zresetuj grę</button>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 100px)",
-          gap: "1rem",
-          marginTop: "2rem",
-        }}
+    <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
+      <h1 className="text-3xl font-bold text-blue-700 mb-6">Memory Game</h1>
+      {hasWon && (
+        <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
+          🎉 Brawo! Wygrałeś!{" "}
+        </div>
+      )}
+      <button
+        onClick={resetGame}
+        className="mb-8 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-semibold transition"
       >
+        🔁 Zresetuj grę
+      </button>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center max-w-md mx-auto">
         {cards.map((card) => (
           <Card key={card.id} card={card} onClick={handleCardClick} />
         ))}
