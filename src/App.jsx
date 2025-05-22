@@ -11,6 +11,7 @@ function App() {
   const [tries, setTries] = useState(0);
   const [time, setTime] = useState(0);
   const [isTiming, setIsTiming] = useState(false);
+  const [bestScore, setBestScore] = useState(null);
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -79,8 +80,33 @@ function App() {
     if (cards.length > 0 && cards.every((card) => card.isMatched)) {
       setHasWon(true);
       setIsTiming(false);
+
+      const newScore = { tries, time };
+      const saved = localStorage.getItem("memory-best-score");
+
+      if (!saved) {
+        localStorage.setItem("memory-best-score", JSON.stringify(newScore));
+        setBestScore(newScore);
+      } else {
+        const best = JSON.parse(saved);
+        const isBetter =
+          newScore.tries < best.tries ||
+          (newScore.tries === best.tries && newScore.time < best.time);
+
+        if (isBetter) {
+          localStorage.setItem("memory-best-score", JSON.stringify(newScore));
+          setBestScore(newScore);
+        }
+      }
     }
-  }, [cards]);
+  }, [cards, time, tries]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("memory-best-score");
+    if (saved) {
+      setBestScore(JSON.parse(saved));
+    }
+  }, []);
 
   const resetTurn = () => {
     setFirstCard(null);
@@ -109,6 +135,15 @@ function App() {
       <p className="text-lg text-gray-700 mb-2">
         ⏱️ Czas: <span className="font-semibold">{formatTime(time)}</span>
       </p>
+      {bestScore && (
+        <p className="text-sm text-gray-500 mb-4">
+          🏆 Najlepszy wynik:{" "}
+          <span className="font-semibold">{bestScore.tries}</span> prób,
+          <span className="font-semibold ml-1">
+            {formatTime(bestScore.time)}
+          </span>
+        </p>
+      )}
 
       {hasWon && (
         <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
