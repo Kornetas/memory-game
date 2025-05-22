@@ -9,8 +9,20 @@ function App() {
   const [isBusy, setIsBusy] = useState(false);
   const [hasWon, setHasWon] = useState(false);
   const [tries, setTries] = useState(0);
+  const [time, setTime] = useState(0);
+  const [isTiming, setIsTiming] = useState(false);
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  }
 
   const handleCardClick = (clickedCard) => {
+    if (!isTiming && !firstCard && !secondCard) {
+      setIsTiming(true); // startujemy zegar przy 1 kliknięciu
+    }
+
     if (isBusy || clickedCard.isFlipped || clickedCard.isMatched) return;
 
     const updatedCards = cards.map((card) =>
@@ -25,6 +37,17 @@ function App() {
       setIsBusy(true);
     }
   };
+
+  useEffect(() => {
+    let timer;
+
+    if (isTiming) {
+      timer = setInterval(() => {
+        setTime((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isTiming]);
 
   useEffect(() => {
     if (!firstCard || !secondCard) return;
@@ -55,6 +78,7 @@ function App() {
   useEffect(() => {
     if (cards.length > 0 && cards.every((card) => card.isMatched)) {
       setHasWon(true);
+      setIsTiming(false);
     }
   }, [cards]);
 
@@ -71,6 +95,8 @@ function App() {
     setIsBusy(false);
     setHasWon(false);
     setTries(0);
+    setTime(0);
+    setIsTiming(false);
   };
 
   return (
@@ -80,6 +106,10 @@ function App() {
       <p className="text-lg text-gray-700 mb-2">
         🔁 Próby: <span className="font-semibold">{tries}</span>
       </p>
+      <p className="text-lg text-gray-700 mb-2">
+        ⏱️ Czas: <span className="font-semibold">{formatTime(time)}</span>
+      </p>
+
       {hasWon && (
         <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
           🎉 Brawo! Wygrałeś!{" "}
