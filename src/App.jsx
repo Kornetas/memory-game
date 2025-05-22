@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "./components/Card/Card";
 import { generateDeck } from "./utils/generateDeck";
 import { formatTime } from "./utils/formatTime";
+import StartScreen from "./components/StartScreen";
 
 function App() {
   const [cards, setCards] = useState(generateDeck);
@@ -126,103 +127,74 @@ function App() {
     setIsTiming(false);
   };
 
-  if (screen === "start") {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center p-8">
-        <h1 className="text-4xl font-bold mb-6 text-blue-700">
-          🎴 Gra pamięciowa
-        </h1>
-        <p className="text-gray-600 text-lg mb-4">
-          📌 Wybierz poziom trudności
-        </p>
-
-        <div className="flex gap-4 mb-6">
-          {["easy", "medium", "hard"].map((level) => (
-            <button
-              key={level}
-              onClick={() => setDifficulty(level)}
-              className={`px-4 py-2 rounded font-semibold capitalize ${
-                difficulty === level
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
-            >
-              {level === "easy" && "🟢 Łatwy"}
-              {level === "medium" && "🟡 Średni"}
-              {level === "hard" && "🔴 Trudny"}
-            </button>
-          ))}
-        </div>
-
-        <button
-          onClick={() => {
+  return (
+    <>
+      {screen === "start" ? (
+        <StartScreen
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
+          onStart={() => {
             setCards(generateDeck(difficulty));
             resetGame();
             setScreen("game");
           }}
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded shadow text-lg"
-        >
-          Start
-        </button>
-      </div>
-    );
-  }
+        />
+      ) : (
+        <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
+          <h1 className="text-3xl font-bold text-blue-700 mb-6">
+            🎴 Gra pamięciowa
+          </h1>
 
-  return (
-    <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
-      <h1 className="text-3xl font-bold text-blue-700 mb-6">
-        🎴 Gra pamięciowa
-      </h1>
+          <p className="text-lg text-gray-700 mb-2">
+            🔁 Próby: <span className="font-semibold">{tries}</span>
+          </p>
+          <p className="text-lg text-gray-700 mb-2">
+            ⏱️ Czas: <span className="font-semibold">{formatTime(time)}</span>
+          </p>
+          {bestScore && (
+            <p className="text-sm text-gray-500 mb-4">
+              🏆 Najlepszy wynik:{" "}
+              <span className="font-semibold">{bestScore.tries}</span> prób,
+              <span className="font-semibold ml-1">
+                {formatTime(bestScore.time)}
+              </span>
+            </p>
+          )}
 
-      <p className="text-lg text-gray-700 mb-2">
-        🔁 Próby: <span className="font-semibold">{tries}</span>
-      </p>
-      <p className="text-lg text-gray-700 mb-2">
-        ⏱️ Czas: <span className="font-semibold">{formatTime(time)}</span>
-      </p>
-      {bestScore && (
-        <p className="text-sm text-gray-500 mb-4">
-          🏆 Najlepszy wynik:{" "}
-          <span className="font-semibold">{bestScore.tries}</span> prób,
-          <span className="font-semibold ml-1">
-            {formatTime(bestScore.time)}
-          </span>
-        </p>
-      )}
+          {hasWon && (
+            <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
+              🎉 Brawo! Wygrałeś!{" "}
+            </div>
+          )}
 
-      {hasWon && (
-        <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
-          🎉 Brawo! Wygrałeś!{" "}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center max-w-md mx-auto">
+            {cards.map((card) => (
+              <Card key={card.id} card={card} onClick={handleCardClick} />
+            ))}
+          </div>
+          <div className="flex justify-center gap-4 mt-8 ">
+            <button
+              onClick={() => {
+                setCards(generateDeck(difficulty));
+                resetGame();
+              }}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+            >
+              🔁 Zagraj ponownie
+            </button>
+
+            <button
+              onClick={() => {
+                setScreen("start");
+              }}
+              className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+            >
+              🔙 Powrót do menu
+            </button>
+          </div>
         </div>
       )}
-
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center max-w-md mx-auto">
-        {cards.map((card) => (
-          <Card key={card.id} card={card} onClick={handleCardClick} />
-        ))}
-      </div>
-      <div className="flex justify-center gap-4 mt-8 ">
-        <button
-          onClick={() => {
-            setCards(generateDeck(difficulty));
-            resetGame();
-          }}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
-        >
-          🔁 Zagraj ponownie
-        </button>
-
-        <button
-          onClick={() => {
-            setScreen("start");
-          }}
-          className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
-        >
-          🔙 Powrót do menu
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
-
 export default App;
