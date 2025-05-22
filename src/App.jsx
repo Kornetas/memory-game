@@ -84,10 +84,11 @@ function App() {
       setIsTiming(false);
 
       const newScore = { tries, time };
-      const saved = localStorage.getItem("memory-best-score");
+      const key = `memory-best-score-${difficulty}`;
+      const saved = localStorage.getItem(key);
 
       if (!saved) {
-        localStorage.setItem("memory-best-score", JSON.stringify(newScore));
+        localStorage.setItem(key, JSON.stringify(newScore));
         setBestScore(newScore);
       } else {
         const best = JSON.parse(saved);
@@ -96,19 +97,22 @@ function App() {
           (newScore.tries === best.tries && newScore.time < best.time);
 
         if (isBetter) {
-          localStorage.setItem("memory-best-score", JSON.stringify(newScore));
+          localStorage.setItem(key, JSON.stringify(newScore));
           setBestScore(newScore);
         }
       }
     }
-  }, [cards, time, tries]);
+  }, [cards, time, tries, difficulty]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("memory-best-score");
+    const key = `memory-best-score-${difficulty}`;
+    const saved = localStorage.getItem(key);
     if (saved) {
       setBestScore(JSON.parse(saved));
+    } else {
+      setBestScore(null);
     }
-  }, []);
+  }, [difficulty]);
 
   const resetTurn = () => {
     setFirstCard(null);
@@ -133,6 +137,9 @@ function App() {
         <h1 className="text-4xl font-bold mb-6 text-blue-700">
           🎴 Memory Game
         </h1>
+        <p className="text-gray-600 text-lg mb-4">
+          📌 Wybierz poziom trudności
+        </p>
 
         <div className="flex gap-4 mb-6">
           {["easy", "medium", "hard"].map((level) => (
