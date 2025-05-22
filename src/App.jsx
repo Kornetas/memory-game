@@ -191,16 +191,31 @@ function App() {
           🎉 Brawo! Wygrałeś!{" "}
         </div>
       )}
-      <button
-        onClick={resetGame}
-        className="mb-8 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-semibold transition"
-      >
-        🔁 Zresetuj grę
-      </button>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center max-w-md mx-auto">
         {cards.map((card) => (
           <Card key={card.id} card={card} onClick={handleCardClick} />
         ))}
+      </div>
+      <div className="flex justify-center gap-4 mt-8 ">
+        <button
+          onClick={() => {
+            setCards(generateDeck(difficulty));
+            resetGame();
+          }}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+        >
+          🔁 Zagraj ponownie
+        </button>
+
+        <button
+          onClick={() => {
+            setScreen("start");
+          }}
+          className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+        >
+          🔙 Powrót do menu
+        </button>
       </div>
     </div>
   );
