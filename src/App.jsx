@@ -8,6 +8,7 @@ function App() {
   const [secondCard, setSecondCard] = useState(null);
   const [isBusy, setIsBusy] = useState(false);
   const [hasWon, setHasWon] = useState(false);
+  const [tries, setTries] = useState(0);
 
   const handleCardClick = (clickedCard) => {
     if (isBusy || clickedCard.isFlipped || clickedCard.isMatched) return;
@@ -28,6 +29,7 @@ function App() {
   useEffect(() => {
     if (!firstCard || !secondCard) return;
 
+    setTries((prev) => prev + 1);
     setIsBusy(true);
 
     if (firstCard.symbol === secondCard.symbol) {
@@ -68,11 +70,16 @@ function App() {
     setSecondCard(null);
     setIsBusy(false);
     setHasWon(false);
+    setTries(0);
   };
 
   return (
     <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
       <h1 className="text-3xl font-bold text-blue-700 mb-6">Memory Game</h1>
+
+      <p className="text-lg text-gray-700 mb-2">
+        🔁 Próby: <span className="font-semibold">{tries}</span>
+      </p>
       {hasWon && (
         <div className="mb-4 p-4 bg-green-100 text-gray-700 rounded shadow">
           🎉 Brawo! Wygrałeś!{" "}
