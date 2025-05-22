@@ -1,12 +1,38 @@
-# React + Vite
+# 🎴 Memory Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Prosta gra pamięciowa zbudowana w React + Vite. Gracz musi dopasować wszystkie pary kart przy jak najmniejszej liczbie prób i w jak najkrótszym czasie ⏱️
 
-Currently, two official plugins are available:
+🔗 **Zobacz działającą wersję online**:  
+👉 [https://kornetas.github.io/memory-game](https://kornetas.github.io/memory-game)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🔥 Funkcje
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🧠 Różne poziomy trudności: Łatwy, Średni, Trudny
+- 🔁 Próby i czas mierzony w czasie rzeczywistym
+- 🏆 Zapisywanie najlepszego wyniku (osobno dla każdego poziomu)
+- 💾 Persistencja w `localStorage`
+- 📱 Responsywny design (TailwindCSS)
+- ⚛️ Stan zarządzany przez `useReducer`
+
+---
+
+## 🚀 Technologie
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [localStorage](https://developer.mozilla.org/pl/docs/Web/API/Window/localStorage)
+- `useReducer` + `useEffect` + custom hook `useMemoryGame`
+
+---
+
+## 🧩 Uruchamianie lokalnie
+
+```bash
+git clone https://github.com/Kornetas/memory-game.git
+cd memory-game
+npm install
+npm run dev
+```

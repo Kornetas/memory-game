@@ -48,17 +48,16 @@ function GameBoard({
 
       <div className="flex justify-between w-full max-w-md mt-8 mx-auto">
         <button
-          onClick={() => onReset()}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
-        >
-          🔁 Zagraj ponownie
-        </button>
-
-        <button
           onClick={() => onBackToMenu()}
           className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
         >
           🔙 Powrót do menu
+        </button>
+        <button
+          onClick={() => onReset()}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow"
+        >
+          🔁 Zagraj ponownie
         </button>
       </div>
     </div>
