@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "./components/Card/Card";
 import { generateDeck } from "./utils/generateDeck";
+import { formatTime } from "./utils/formatTime";
 
 function App() {
   const [cards, setCards] = useState(generateDeck);
@@ -14,12 +15,6 @@ function App() {
   const [bestScore, setBestScore] = useState(null);
   const [screen, setScreen] = useState("start"); // "start" | "game"
   const [difficulty, setDifficulty] = useState("medium"); // domyślnie średni
-
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  }
 
   const handleCardClick = (clickedCard) => {
     if (!isTiming && !firstCard && !secondCard) {
@@ -135,7 +130,7 @@ function App() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-center p-8">
         <h1 className="text-4xl font-bold mb-6 text-blue-700">
-          🎴 Memory Game
+          🎴 Gra pamięciowa
         </h1>
         <p className="text-gray-600 text-lg mb-4">
           📌 Wybierz poziom trudności
@@ -175,7 +170,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg bg-gray-100 text-center py-10 px-4">
-      <h1 className="text-3xl font-bold text-blue-700 mb-6">Memory Game</h1>
+      <h1 className="text-3xl font-bold text-blue-700 mb-6">
+        🎴 Gra pamięciowa
+      </h1>
 
       <p className="text-lg text-gray-700 mb-2">
         🔁 Próby: <span className="font-semibold">{tries}</span>
