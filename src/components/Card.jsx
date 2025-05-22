@@ -1,7 +1,6 @@
 function Card({ card, onClick }) {
   const handleClick = () => {
     if (!card.isFlipped && !card.isMatched) {
-      console.log("Kliknięto kartę ID:", card.id, "Symbol:", card.symbol);
       onClick(card);
     }
   };
